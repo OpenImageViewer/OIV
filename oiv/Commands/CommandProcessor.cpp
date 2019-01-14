@@ -20,6 +20,7 @@
 #include "Handlers/CommandHandlerGetKnownFileTypes.h"
 #include "Handlers/CommandHandlerRegisterCallbacks.h"
 #include "Handlers/CommandHandlerGetSubImages.h"
+#include "Handlers/CommandHandlerResampleImage.h"
 
 
 namespace OIV
@@ -50,6 +51,7 @@ namespace OIV
             , make_pair(OIV_CMD_GetKnownFileTypes,new CommandHandlerGetKnownFileTypes())
             , make_pair(OIV_CMD_RegisterCallbacks,new CommandHandlerRegisterCallbacks())
             , make_pair(OIV_CMD_GetSubImages,new CommandHandlerGetSubImages())
+            , make_pair(OIV_CMD_ResampleImage,new CommandHandlerResampleImage())
         };
     }
 

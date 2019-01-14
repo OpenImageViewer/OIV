@@ -169,10 +169,12 @@ namespace OIV
         void UpdateOpenImageUI();
         void SetOpenImage(const OIVBaseImageSharedPtr& image_descriptor);
         void UnloadWelcomeMessage();
+		void SetDownScalingTechnique(DownscalingTechnique technique);
         void ShowWelcomeMessage();
         void FinalizeImageLoad(ResultCode result);
         void FinalizeImageLoadThreadSafe(ResultCode result);
         const std::wstring& GetOpenedFileName() const;
+		bool IsImageOpen() const;
         bool IsOpenedImageIsAFile() const;
         void ReloadFileInFolder();
         void UpdateOpenedFileIndex();   
@@ -220,6 +222,7 @@ namespace OIV
         Win32::Timer fTimerHideUserMessage;
         Win32::Timer fTimerTopMostRetention;
         Win32::Timer fTimerSlideShow;
+		Win32::Timer fTimerNoActiveZoom;
         int fTopMostCounter = 0;
         
 

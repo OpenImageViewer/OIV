@@ -10,6 +10,10 @@ inline constexpr uint8_t operator "" _u8(unsigned long long int arg) noexcept
 
 namespace LLUtils
 {
+    //using Component = uint8_t;
+   #define COLOR_RGBA(R,G,B,A) (static_cast<uint32_t>( A << 24 | B << 16 | << G << 8 | R  ) )
+   #define COLOR_RGB(R,G,B) COLOR_RGBA(R,G,B,0xFF)
+
     struct Color
     {
         union

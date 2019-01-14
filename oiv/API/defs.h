@@ -49,6 +49,8 @@ typedef wchar_t OIVCHAR;
         , OIV_CMD_GetKnownFileTypes
         , OIV_CMD_RegisterCallbacks
         , OIV_CMD_GetSubImages
+        , OIV_CMD_ResampleImage
+
     };
 
     
@@ -151,6 +153,20 @@ typedef wchar_t OIVCHAR;
         uint32_t x;
         uint32_t y;
     };
+
+    struct OIV_CMD_Resample_Request
+    {
+        ImageHandle imageHandle;
+        LLUtils::PointI32 size;
+    };
+
+    struct OIV_CMD_Resample_Response
+    {
+        ImageHandle imageHandle;
+    };
+
+
+
 
     struct OIV_Exception_Args
     {

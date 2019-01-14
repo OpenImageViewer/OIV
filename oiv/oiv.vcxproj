@@ -150,6 +150,7 @@
     <ClCompile Include="FreeType\MetaTextParser.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="oiv.cpp" />
+    <ClCompile Include="Resampler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApiGlobal.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Commands\Handlers\CommandHandlerQueryImageInfo.h" />
     <ClInclude Include="Commands\Handlers\CommandHandlerRefresh.h" />
     <ClInclude Include="Commands\Handlers\CommandHandlerRegisterCallbacks.h" />
+    <ClInclude Include="Commands\Handlers\CommandHandlerResampleImage.h" />
     <ClInclude Include="Commands\Handlers\CommandHandlerSetClientSize.h" />
     <ClInclude Include="Commands\Handlers\CommandHandlerSetSelectionRect.h" />
     <ClInclude Include="Commands\Handlers\CommandHandlerTexelGrid.h" />
@@ -198,6 +200,7 @@
     <ClInclude Include="Interfaces\IPictureRenderer.h" />
     <ClInclude Include="NullRenderer.h" />
     <ClInclude Include="oiv.h" />
+    <ClInclude Include="Resampler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CopyDlls.cmd" />

@@ -12,9 +12,10 @@
 
 namespace IMUtil
 {
-#define RGBA(R,G,B,A) (A << 24 | B << 16 | G << 8 | R ) 
-#define RGBA_GRAYSCALE(X) (RGBA(X,X,X,255))
-#define RGBA_To_GRAYSCALE_LUMA(R,G,B,A) (RGBA((int)(R * 0.2126), (int)(G * 0.7152) ,(int)(B * 0.0722) ,255))
+#define ABGR(A,B,G,R) (A << 24 | B << 16 | G << 8 | R ) 
+#define ARGB(A,R,G,B) (A << 24 | R << 16 | G << 8 | B ) 
+#define RGBA_GRAYSCALE(X) (ARGB(255,X,X,X))
+#define RGBA_To_GRAYSCALE_LUMA(R,G,B,A) (ARGB((int)(R * 0.2126), (int)(G * 0.7152) ,(int)(B * 0.0722) ,255))
 
     class ImageUtil
     {
@@ -346,7 +347,7 @@ namespace IMUtil
                         rgb = HSLToRGB(HSL(hue, 0.5, 0.5));
 
                     }
-                    currentTexel[i].value = RGBA(rgb.R, rgb.G, rgb.B, 255);
+                    currentTexel[i].value = ARGB(255, rgb.R, rgb.G, rgb.B);
                 }
                     break;
                 }

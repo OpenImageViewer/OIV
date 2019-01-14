@@ -310,6 +310,62 @@ namespace LLUtils
             return ustring();
 #endif
         }
+
+
+#if LLUTILS_PLATFORM == LLUTILS_PLATFORM_WIN32
+		private:
+		static  DWORD CountSetBits(ULONG_PTR bitMask) 
+		{
+			DWORD LSHIFT = sizeof(ULONG_PTR) * 8 - 1;
+			DWORD bitSetCount = 0;
+			ULONG_PTR bitTest = (ULONG_PTR)1 << LSHIFT;
+			for (DWORD i = 0; i <= LSHIFT; ++i) {
+				bitSetCount += ((bitMask & bitTest) ? 1 : 0);
+				bitTest /= 2;
+			}
+			return bitSetCount;
+		}
+		struct CoresInfo
+		{
+			uint16_t physicalCores = 0;
+			uint16_t logicalCores = 0;
+		};
+		public:
+		static CoresInfo GetCPUCoresInfo()
+		{
+			CoresInfo result;
+			DWORD cores = 0, logical = 0, len = 0;
+			if (FALSE == GetLogicalProcessorInformationEx(RelationAll, (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX)nullptr, &len)) 
+			{
+				if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) 
+				{
+					auto buffer = std::make_unique<char[]>(len);
+					if (GetLogicalProcessorInformationEx(RelationAll, (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX)buffer.get(), &len)) 
+					{
+						DWORD offset = 0;
+						char* ptr = buffer.get();
+						while (ptr < buffer.get() + len) 
+						{
+							PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX pi = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX)ptr;
+							if (pi->Relationship == RelationProcessorCore) {
+								cores++;
+								for (size_t g = 0; g < pi->Processor.GroupCount; ++g) {
+									logical += CountSetBits(pi->Processor.GroupMask[g].Mask);
+								}
+							}
+							ptr += pi->Size;
+						}
+
+						result.physicalCores = static_cast<uint32_t>(cores);
+						result.logicalCores = static_cast<uint32_t>(logical);
+					}
+				}
+			}
+			return result;
+		}
+
+#endif
+
     };
 }
 

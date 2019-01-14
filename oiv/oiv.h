@@ -4,6 +4,7 @@
 #include "interfaces/IRenderer.h"
 #include "ImageManager.h"
 #include <set>
+#include "Resampler.h"
 
 
 namespace OIV
@@ -27,6 +28,7 @@ namespace OIV
         ResultCode GetTexelInfo(const OIV_CMD_TexelInfo_Request& texel_request, OIV_CMD_TexelInfo_Response& texelresponse) override;
         ResultCode SetImageProperties(const OIV_CMD_ImageProperties_Request&) override;
         ResultCode GetKnownFileTypes(OIV_CMD_GetKnownFileTypes_Response& res) override;
+        ResultCode ResampleImage(const OIV_CMD_Resample_Request& resampleRequest,ImageHandle& handle) override;
         ResultCode RegisterCallbacks(const OIV_CMD_RegisterCallbacks_Request& callbacks) override;
         ResultCode GetSubImages(const OIV_CMD_GetSubImages_Request& request, OIV_CMD_GetSubImages_Response& res) override;
         
@@ -53,6 +55,7 @@ namespace OIV
         ResultCode UploadImageToRenderer(ImageHandle handle);
         ResultCode RemoveImageFromRenderer(ImageHandle handle);
             
+        IMCodec::ImageSharedPtr Resample(IMCodec::ImageSharedPtr sourceImage, LLUtils::PointI32 targetSize);
 #pragma endregion
 
 #pragma region //-------------Private member fields------------------
@@ -99,6 +102,7 @@ namespace OIV
         bool fShowGrid = false;
         LLUtils::PointI32 fClientSize = LLUtils::PointI32::Zero;
         OIV_CMD_RegisterCallbacks_Request fCallBacks = {};
+		Resampler fResampler;
 #pragma endregion
     };
 }

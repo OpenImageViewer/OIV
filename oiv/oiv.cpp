@@ -96,6 +96,35 @@ namespace OIV
 
     }
 
+    IMCodec::ImageSharedPtr OIV::Resample(IMCodec::ImageSharedPtr sourceImage, LLUtils::PointI32 targetSize)
+    {
+
+        const uint32_t width = targetSize.x;
+        const uint32_t height = targetSize.y;
+
+
+        using namespace IMCodec;
+        //Create target downscaled image.
+        ImageDescriptor desc = {};
+        desc.fProperties.Height = height;
+        desc.fProperties.Width = width;
+        desc.fProperties.RowPitchInBytes = width * sourceImage->GetBytesPerTexel();
+        desc.fProperties.TexelFormatDecompressed = sourceImage->GetImageType();
+        desc.fProperties.TexelFormatStorage = sourceImage->GetOriginalTexelFormat();
+        desc.fData.Allocate(width * height * sourceImage->GetBytesPerTexel());
+        ImageSharedPtr resampled = std::make_shared<IMCodec::Image>(desc);
+		ResamplerParams params;
+		params.sourceBuffer = reinterpret_cast<const uint32_t*>(sourceImage->GetBufferAt(0, 0));
+		params.sourceWidth = sourceImage->GetWidth();
+		params.sourceHeight = sourceImage->GetHeight();
+		params.targetBuffer = const_cast<uint32_t*>(reinterpret_cast<const uint32_t*>(resampled->GetBufferAt(0, 0)));
+		params.targetWidth = width;
+		params.targetHeight = height;
+
+		fResampler.Resample(params);
+
+        return resampled;
+    }
 
 #pragma region IPictureViewer implementation
     // IPictureViewr implementation
@@ -390,6 +419,16 @@ namespace OIV
         if (res.knownFileTypes != nullptr)
             memcpy(res.knownFileTypes, knownFileTypesAnsi.data(), knownFileTypesAnsi.size() + 1);
         
+        return RC_Success;
+    }
+
+    ResultCode OIV::ResampleImage(const OIV_CMD_Resample_Request& resampleRequest, ImageHandle & handle)
+    {
+        using namespace IMCodec;
+        //resample the displayed image.
+        ImageSharedPtr original = fImageManager.GetImage(resampleRequest.imageHandle);
+        ImageSharedPtr resmapled = Resample(original, resampleRequest.size);
+        handle = fImageManager.AddImage(resmapled);
         return RC_Success;
     }
 
