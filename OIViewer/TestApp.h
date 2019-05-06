@@ -157,7 +157,7 @@ namespace OIV
         LLUtils::PointF64 ClientToImage(LLUtils::PointI32 clientPos) const;
         LLUtils::RectF64 ClientToImage(LLUtils::RectI32 clientRect) const;
         void UpdateTexelPos();
-        void AutoPlaceImage();
+        void AutoPlaceImage(bool forceCenter = false);
         void UpdateWindowSize();
         void Center();
         LLUtils::PointF64 ResolveOffset(const LLUtils::PointF64& point);
