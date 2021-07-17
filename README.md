@@ -64,6 +64,11 @@ The motivation for this project is to create an open code image viewer with grea
 ##### Requirements
 * Windows Vista/7/8/8.1/10
 * Microsoft build tools 2019 or higher
+  
+##### When using Windows 7 SP1, make sure the following are installed:
+* [KB2670838 - Windows 7 platform update](https://www.microsoft.com/en-us/download/details.aspx?id=36805)
+* [KB4019990 - D3DCompiler_47](https://www.catalog.update.microsoft.com/Search.aspx?q=4019990)
+* [Universal C runtime](https://support.microsoft.com/en-us/topic/update-for-universal-c-runtime-in-windows-c0514201-7fe6-95a3-b0a5-287930f3560c)
 ### Linux
 #### Requirements
 coming soon ...
